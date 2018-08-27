@@ -33,17 +33,17 @@ public class Bar {
     // in the screen width and height
     public Bar(int screenX, int screenY){
         // 130 pixels wide and 20 pixels high
-        length = 130;
-        height = 20;
+        length = screenX/7;
+        height = screenY/20;
 
         // Start paddle in roughly the sceen centre
         x = screenX / 2;
-        y = screenY - 20;
+        y = screenY - height;
 
         rect = new RectF(x, y, x + length, y + height);
 
         // How fast is the paddle in pixels per second
-        paddleSpeed = 350;
+        paddleSpeed = 450;
     }
 
     // This is a getter method to make the rectangle that
