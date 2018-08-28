@@ -253,7 +253,7 @@ public class MainActivity extends Activity {
 
                 // Draw the ball
                 paint.setColor(Color.argb(255, 0, 0, 50));
-                canvas.drawRect(ball.getRect(),paint);
+                canvas.drawOval(ball.getRect(),paint);
 
                 // Draw the bricks
                 paint.setColor(Color.argb(255,  7, 8, 56 ));
