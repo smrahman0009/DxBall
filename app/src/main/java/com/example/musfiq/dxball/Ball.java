@@ -8,14 +8,19 @@ public class Ball {
     RectF rect;
     float xVelocity;
     float yVelocity;
-    float ballWidth=50;
-    float ballHeight=50;
+    float ballWidth = 10;
+    float ballHeight = 10;
 
-    public Ball(int screenX,int screenY){
-        this.xVelocity=200;
-        this.yVelocity=-400;
+    public Ball(int screenX, int screenY){
 
+        // Start the ball travelling straight up at 100 pixels per second
+        xVelocity = 200;
+        yVelocity = -400;
+
+        // Place the ball in the centre of the screen at the bottom
+        // Make it a 10 pixel x 10 pixel square
         rect = new RectF();
+
     }
 
     public RectF getRect(){
@@ -30,21 +35,22 @@ public class Ball {
     }
 
     public void reverseYVelocity(){
-        this.yVelocity= -1*(this.yVelocity);
+        yVelocity = -yVelocity;
     }
 
     public void reverseXVelocity(){
-        this.xVelocity=-1*(this.xVelocity);
+        xVelocity = - xVelocity;
     }
 
     public void setRandomXVelocity(){
-        Random random = new Random();
-        int answer = random.nextInt(2);
+        Random generator = new Random();
+        int answer = generator.nextInt(2);
 
         if(answer == 0){
             reverseXVelocity();
         }
     }
+
     public void clearObstacleY(float y){
         rect.bottom = y;
         rect.top = y - ballHeight;
@@ -54,11 +60,12 @@ public class Ball {
         rect.left = x;
         rect.right = x + ballWidth;
     }
+
     public void reset(int x, int y){
         rect.left = x / 2;
-        rect.top = y - 40;
+        rect.top = y - 20;
         rect.right = x / 2 + ballWidth;
-        rect.bottom = y - 40 - ballHeight;
+        rect.bottom = y - 20 - ballHeight;
     }
 
 }
