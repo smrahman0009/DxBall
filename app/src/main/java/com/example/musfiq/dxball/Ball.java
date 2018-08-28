@@ -8,8 +8,8 @@ public class Ball {
     RectF rect;
     float xVelocity;
     float yVelocity;
-    float ballWidth=10;
-    float ballHeight=10;
+    float ballWidth=50;
+    float ballHeight=50;
 
     public Ball(int screenX,int screenY){
         this.xVelocity=200;

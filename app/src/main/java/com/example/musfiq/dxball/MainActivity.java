@@ -44,6 +44,7 @@ public class MainActivity extends Activity {
         int screenY;
 
         Bar bar;
+        Ball ball;
 
         public BreakOutView(Context context){
             super(context);
@@ -61,7 +62,14 @@ public class MainActivity extends Activity {
             screenY = size.y;
 
             bar = new Bar(screenX,screenY);
+            ball = new Ball(screenX,screenY);
+            createBricksAndRestart();
 
+        }
+        public void createBricksAndRestart(){
+
+            // Put the ball back to the start
+            ball.reset(screenX, screenY);
 
         }
 
@@ -92,6 +100,7 @@ public class MainActivity extends Activity {
 
         public void update(){
             bar.update(fps);
+            ball.update(fps);
         }
 
         public void draw(){
@@ -108,6 +117,8 @@ public class MainActivity extends Activity {
                 canvas.drawRect(bar.getRect(), paint);
 
                 // Draw the ball
+                paint.setColor(Color.argb(255, 0, 0, 50));
+                canvas.drawRect(ball.getRect(),paint);
 
                 // Draw the bricks
 
