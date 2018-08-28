@@ -33,12 +33,12 @@ public class Bar {
     // in the screen width and height
     public Bar(int screenX, int screenY){
         // 130 pixels wide and 20 pixels high
-        length = screenX/7;
-        height = screenY/20;
+        length = 260;
+        height = 40;
 
         // Start paddle in roughly the sceen centre
         x = screenX / 2;
-        y = screenY - height;
+        y = screenY - 40;
 
         rect = new RectF(x, y, x + length, y + height);
 
