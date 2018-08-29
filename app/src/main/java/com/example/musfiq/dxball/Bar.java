@@ -1,6 +1,8 @@
 package com.example.musfiq.dxball;
 
+import android.annotation.SuppressLint;
 import android.graphics.RectF;
+import android.util.Log;
 
 public class Bar {
 
@@ -31,10 +33,13 @@ public class Bar {
     // This the the constructor method
     // When we create an object from this class we will pass
     // in the screen width and height
+    @SuppressLint("LongLogTag")
     public Bar(int screenX, int screenY){
+        Log.d("Horaizontal resoulation: "+screenX, "Vertical resulation: "+screenY);
         // 130 pixels wide and 20 pixels high
         length = 130;
         height = 20;
+
 
         // Start paddle in roughly the sceen centre
         x = screenX / 2;

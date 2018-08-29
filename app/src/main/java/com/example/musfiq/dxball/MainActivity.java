@@ -92,31 +92,7 @@ public class MainActivity extends Activity {
 
             soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC,0);
 
-            try{
-                // Create objects of the 2 required classes
-                AssetManager assetManager = context.getAssets();
-                AssetFileDescriptor descriptor;
 
-                // Load our fx in memory ready for use
-                descriptor = assetManager.openFd("beep1.ogg");
-                beep1ID = soundPool.load(descriptor, 0);
-
-                descriptor = assetManager.openFd("beep2.ogg");
-                beep2ID = soundPool.load(descriptor, 0);
-
-                descriptor = assetManager.openFd("beep3.ogg");
-                beep3ID = soundPool.load(descriptor, 0);
-
-                descriptor = assetManager.openFd("loseLife.ogg");
-                loseLifeID = soundPool.load(descriptor, 0);
-
-                descriptor = assetManager.openFd("explode.ogg");
-                explodeID = soundPool.load(descriptor, 0);
-
-            }catch(IOException e){
-                // Print an error message to the console
-                Log.e("error", "failed to load sound files");
-            }
             createBricksAndRestart();
 
         }
@@ -253,7 +229,7 @@ public class MainActivity extends Activity {
 
                 // Draw the ball
                 paint.setColor(Color.argb(255, 0, 0, 50));
-                canvas.drawRect(ball.getRect(),paint);
+                canvas.drawOval(ball.getRect(),paint);
 
                 // Draw the bricks
                 paint.setColor(Color.argb(255,  7, 8, 56 ));
