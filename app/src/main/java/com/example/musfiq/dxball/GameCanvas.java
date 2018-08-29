@@ -2,6 +2,7 @@ package com.example.musfiq.dxball;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -178,6 +179,7 @@ public class GameCanvas extends Activity {
 
                 if(lives == 0){
                     paused = true;
+                    finish();
                     createBricksAndRestart();
                 }
 

@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     public void openGameCanvas(){
         Intent intent = new Intent(this,GameCanvas.class);
         startActivity(intent);
+
     }
 
 }
