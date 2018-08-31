@@ -201,15 +201,14 @@ public class GameCanvas extends Activity {
                         }
                     }
                 }
-                // Check for ball colliding with bar
+
                 if(RectF.intersects(bar.getBar(),ball.getBall())) {
                     ball.setRandomXVelocity();
                     ball.setVerticalSpeed();
                     ball.stopVtclOverlape(bar.getBar().top - 100);
                 }
 
-                // Bounce the ball back when it hits the bottom of screen
-                // And deduct a life
+
                 if(ball.getBall().bottom > yResulation){
                     ball.setVerticalSpeed();
                     ball.stopVtclOverlape(yResulation - 2);
@@ -257,19 +256,17 @@ public class GameCanvas extends Activity {
             try {
                 gameThread.join();
             } catch (InterruptedException e) {
-                Log.e("Error:", "joining thread");
+
             }
 
         }
-        // If SimpleGameEngine Activity is started theb
-        // start our thread.
+
         public void resume() {
             playing = true;
             gameThread = new Thread(this);
             gameThread.start();
         }
-        // The SurfaceView class implements onTouchListener
-        // So we can override this method and detect screen touches.
+
         @Override
         public boolean onTouchEvent(MotionEvent motionEvent) {
 
@@ -302,15 +299,12 @@ public class GameCanvas extends Activity {
     protected void onResume() {
         super.onResume();
 
-        // Tell the gameView resume method to execute
         gameView.resume();
     }
-    // This method executes when the player quits the game
     @Override
     protected void onPause() {
         super.onPause();
 
-        // Tell the gameView pause method to execute
         gameView.pause();
     }
 }
