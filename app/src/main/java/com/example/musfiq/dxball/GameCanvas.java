@@ -82,7 +82,7 @@ public class GameCanvas extends Activity {
             ball = new Ball();
 
             this.ballSpeed=100;
-            this.barSpeed=80;
+            this.barSpeed=40;
 
             firstTime = true;
 
@@ -119,6 +119,46 @@ public class GameCanvas extends Activity {
         }
 
         public void runGame(){
+
+            if (gameHolder.getSurface().isValid()){
+                canvas = gameHolder.lockCanvas();
+                // Draw the background color
+
+                canvas.drawColor(Color.argb(255, 0, 100, 0));
+
+                // Choose the brush color for drawing
+                paint.setColor(Color.argb(255, 100, 0, 0));
+
+                // draw bar
+                canvas.drawRect(bar.getBar(), paint);
+
+
+                // Draw the ball
+                paint.setColor(Color.argb(255, 0, 0, 50));
+                canvas.drawOval(ball.getBall(),paint);
+
+
+                // Draw the bricks
+                paint.setColor(Color.argb(255,  7, 8, 56 ));
+
+                // Draw the bricks if visible
+                for(int i = 0; i < numBricks; i++){
+                    if(bricks[i].getVisibility()) {
+                        canvas.drawRect(bricks[i].getBrick(), paint);
+                    }
+                }
+
+                // Draw the HUD
+
+                // Choose the brush color for drawing
+                paint.setColor(Color.argb(255,  255, 255, 255));
+
+                // Draw the score
+                paint.setTextSize(40);
+                canvas.drawText("Score: " + score + "   Lives: " + lives, 10,50, paint);
+
+                gameHolder.unlockCanvasAndPost(canvas);
+            }
 
             if(!isRunning){
                 bar.update(barSpeed);
@@ -184,45 +224,7 @@ public class GameCanvas extends Activity {
                     createBricksAndRestart();
                 }
             }
-            if (gameHolder.getSurface().isValid()){
-                canvas = gameHolder.lockCanvas();
-                // Draw the background color
 
-                canvas.drawColor(Color.argb(255, 0, 100, 0));
-
-                // Choose the brush color for drawing
-                paint.setColor(Color.argb(255, 100, 0, 0));
-
-                // Draw the paddle
-                canvas.drawRect(bar.getBar(), paint);
-
-
-                // Draw the ball
-                paint.setColor(Color.argb(255, 0, 0, 50));
-                canvas.drawOval(ball.getBall(),paint);
-
-
-                // Draw the bricks
-                paint.setColor(Color.argb(255,  7, 8, 56 ));
-
-                // Draw the bricks if visible
-                for(int i = 0; i < numBricks; i++){
-                    if(bricks[i].getVisibility()) {
-                        canvas.drawRect(bricks[i].getBrick(), paint);
-                    }
-                }
-
-                // Draw the HUD
-
-                // Choose the brush color for drawing
-                paint.setColor(Color.argb(255,  255, 255, 255));
-
-                // Draw the score
-                paint.setTextSize(40);
-                canvas.drawText("Score: " + score + "   Lives: " + lives, 10,50, paint);
-
-                gameHolder.unlockCanvasAndPost(canvas);
-            }
         }
 
         public void pause() {
