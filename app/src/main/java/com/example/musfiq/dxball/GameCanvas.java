@@ -1,4 +1,3 @@
-
 package com.example.musfiq.dxball;
 
 import android.app.Activity;
@@ -138,7 +137,8 @@ public class GameCanvas extends Activity {
                 // time animations and more.
                 timeThisFrame = System.currentTimeMillis() - startFrameTime;
                 if (timeThisFrame >= 1) {
-                    fps = 1000 / timeThisFrame;
+                    // fps = 1000 / timeThisFrame;
+                    fps = 100;
                 }
             }
         }
@@ -164,7 +164,7 @@ public class GameCanvas extends Activity {
             if(RectF.intersects(bar.getRect(),ball.getRect())) {
                 ball.setRandomXVelocity();
                 ball.reverseYVelocity();
-                ball.clearObstacleY(bar.getRect().top - 2);
+                ball.clearObstacleY(bar.getRect().top - 100);
                 soundPool.play(beep1ID, 1, 1, 0, 0, 1);
             }
 
@@ -189,21 +189,21 @@ public class GameCanvas extends Activity {
             // Bounce the ball back when it hits the top of screen
             if(ball.getRect().top < 0){
                 ball.reverseYVelocity();
-                ball.clearObstacleY(12);
+                ball.clearObstacleY(100);
                 soundPool.play(beep2ID, 1, 1, 0, 0, 1);
             }
 
             // If the ball hits left wall bounce
             if(ball.getRect().left < 0){
                 ball.reverseXVelocity();
-                ball.clearObstacleX(2);
+                ball.clearObstacleX(100);
                 soundPool.play(beep3ID, 1, 1, 0, 0, 1);
             }
 
             // If the ball hits right wall bounce
-            if(ball.getRect().right > screenX - 10){
+            if(ball.getRect().right > screenX - 30){
                 ball.reverseXVelocity();
-                ball.clearObstacleX(screenX - 22);
+                ball.clearObstacleX(screenX - 100);
                 soundPool.play(beep3ID, 1, 1, 0, 0, 1);
             }
 
@@ -231,6 +231,7 @@ public class GameCanvas extends Activity {
                 // Draw the ball
                 paint.setColor(Color.argb(255, 0, 0, 50));
                 canvas.drawOval(ball.getRect(),paint);
+
 
                 // Draw the bricks
                 paint.setColor(Color.argb(255,  7, 8, 56 ));

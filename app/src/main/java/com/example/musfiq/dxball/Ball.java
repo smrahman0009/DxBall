@@ -8,13 +8,13 @@ public class Ball {
     RectF rect;
     float xVelocity;
     float yVelocity;
-    float ballWidth = 10;
-    float ballHeight = 10;
+    float ballWidth = 30;
+    float ballHeight = 30;
 
     public Ball(int screenX, int screenY){
 
         // Start the ball travelling straight up at 100 pixels per second
-        xVelocity = 200;
+        xVelocity = 300;
         yVelocity = -400;
 
         // Place the ball in the centre of the screen at the bottom
@@ -63,7 +63,7 @@ public class Ball {
 
     public void reset(int x, int y){
         rect.left = x / 2;
-        rect.top = y - 20;
+        rect.top = y - 30;
         rect.right = x / 2 + ballWidth;
         rect.bottom = y - 20 - ballHeight;
     }
