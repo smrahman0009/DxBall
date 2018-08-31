@@ -100,9 +100,12 @@ public class GameCanvas extends Activity {
 
             numBricks = 0;
 
+            int type=0;
             for(int column = 0; column < 8; column ++ ){
                 for(int row = 0; row < 3; row ++ ){
-                    bricks[numBricks] = new Brick(row, column, brickWidth, brickHeight);
+                    if(column%2==0)type=0;
+                    else  type=1;
+                    bricks[numBricks] = new Brick(row, column, brickWidth, brickHeight,type);
                     numBricks ++;
                 }
             }
@@ -139,12 +142,21 @@ public class GameCanvas extends Activity {
 
 
                 // Draw the bricks
-                paint.setColor(Color.argb(255,  7, 8, 56 ));
+
 
                 // Draw the bricks if visible
                 for(int i = 0; i < numBricks; i++){
                     if(bricks[i].getVisibility()) {
-                        canvas.drawRect(bricks[i].getBrick(), paint);
+
+                        if (bricks[i].getType()==1) {
+                            paint.setColor(Color.argb(255,  0, 0, 150 ));
+                            canvas.drawRect(bricks[i].getBrick(), paint);
+                        }
+                        else if (bricks[i].getType()==0){
+                            paint.setColor(Color.argb(255,  150, 0, 0));
+                            canvas.drawRect(bricks[i].getBrick(), paint);
+                        }
+
                     }
                 }
 
