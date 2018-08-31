@@ -2,15 +2,11 @@ package com.example.musfiq.dxball;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
-import android.media.AudioManager;
-import android.media.SoundPool;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -20,20 +16,21 @@ import android.view.SurfaceView;
 
 public class GameCanvas extends Activity {
 
-    BreakOutView breakoutView;
+    DxBall gameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        breakoutView = new BreakOutView(this);
-        setContentView(breakoutView);
+        gameView = new DxBall(this);
+        setContentView(gameView);
 
     }
 
-    class BreakOutView extends SurfaceView implements Runnable{
+    class DxBall extends SurfaceView implements Runnable{
+        boolean firstTime;
         Thread gameThread = null;
 
-        SurfaceHolder ourHolder;
+        SurfaceHolder gameHolder;
 
         volatile boolean playing;
 
@@ -42,9 +39,10 @@ public class GameCanvas extends Activity {
         Canvas canvas;
         Paint paint;
 
-        long fps;
+       int  ballSpeed;
+       int barSpeed;
 
-        private long timeThisFrame;
+
 
         int screenX;
         int screenY;
@@ -55,12 +53,6 @@ public class GameCanvas extends Activity {
         int numBricks = 0;
 
 
-        SoundPool soundPool;
-        int beep1ID = -1;
-        int beep2ID = -1;
-        int beep3ID = -1;
-        int loseLifeID = -1;
-        int explodeID = -1;
 
         // The score
         int score = 0;
@@ -70,11 +62,11 @@ public class GameCanvas extends Activity {
 
 
 
-        public BreakOutView(Context context){
+        public DxBall(Context context){
             super(context);
 
 
-            ourHolder=getHolder();
+            gameHolder =getHolder();
             paint=new Paint();
 
             Display display = getWindowManager().getDefaultDisplay();
@@ -88,9 +80,11 @@ public class GameCanvas extends Activity {
             bar = new Bar(screenX,screenY);
             ball = new Ball(screenX,screenY);
 
+            //init ball speed and bar speed
+            this.ballSpeed=100;
+            this.barSpeed=80;
 
-            soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC,0);
-
+            firstTime = true;
 
             createBricksAndRestart();
 
@@ -113,39 +107,27 @@ public class GameCanvas extends Activity {
                 }
             }
             // Reset scores and lives
-            score = 0;
-            lives = 3;
+
         }
+
 
         @Override
         public void run() {
             while (playing){
-                // Capture the current time in milliseconds in startFrameTime
-                long startFrameTime = System.currentTimeMillis();
 
-                // Update the frame
-                // Update the frame
-                if(!paused){
+               if(!paused){
                     update();
                 }
 
-                // Draw the frame
+                // draw game canvas
                 draw();
 
-                // Calculate the fps this frame
-                // We can then use the result to
-                // time animations and more.
-                timeThisFrame = System.currentTimeMillis() - startFrameTime;
-                if (timeThisFrame >= 1) {
-                    // fps = 1000 / timeThisFrame;
-                    fps = 100;
-                }
             }
         }
 
         public void update(){
-            bar.update(fps);
-            ball.update(fps);
+            bar.update(barSpeed);
+            ball.update(ballSpeed);
 
             // Check for ball colliding with a brick
             for(int i = 0; i < numBricks; i++){
@@ -156,7 +138,6 @@ public class GameCanvas extends Activity {
                         bricks[i].setInvisible();
                         ball.reverseYVelocity();
                         score = score + 10;
-                        soundPool.play(explodeID, 1, 1, 0, 0, 1);
                     }
                 }
             }
@@ -165,7 +146,6 @@ public class GameCanvas extends Activity {
                 ball.setRandomXVelocity();
                 ball.reverseYVelocity();
                 ball.clearObstacleY(bar.getRect().top - 100);
-                soundPool.play(beep1ID, 1, 1, 0, 0, 1);
             }
 
             // Bounce the ball back when it hits the bottom of screen
@@ -176,7 +156,6 @@ public class GameCanvas extends Activity {
 
                 // Lose a life
                 lives --;
-                soundPool.play(loseLifeID, 1, 1, 0, 0, 1);
 
                 if(lives == 0){
                     paused = true;
@@ -190,21 +169,18 @@ public class GameCanvas extends Activity {
             if(ball.getRect().top < 0){
                 ball.reverseYVelocity();
                 ball.clearObstacleY(100);
-                soundPool.play(beep2ID, 1, 1, 0, 0, 1);
             }
 
             // If the ball hits left wall bounce
             if(ball.getRect().left < 0){
                 ball.reverseXVelocity();
                 ball.clearObstacleX(100);
-                soundPool.play(beep3ID, 1, 1, 0, 0, 1);
             }
 
             // If the ball hits right wall bounce
             if(ball.getRect().right > screenX - 30){
                 ball.reverseXVelocity();
                 ball.clearObstacleX(screenX - 100);
-                soundPool.play(beep3ID, 1, 1, 0, 0, 1);
             }
 
             // Pause if cleared screen
@@ -216,8 +192,8 @@ public class GameCanvas extends Activity {
         }
 
         public void draw(){
-            if (ourHolder.getSurface().isValid()){
-                canvas = ourHolder.lockCanvas();
+            if (gameHolder.getSurface().isValid()){
+                canvas = gameHolder.lockCanvas();
                 // Draw the background color
 
                 canvas.drawColor(Color.argb(255, 0, 100, 0));
@@ -265,7 +241,7 @@ public class GameCanvas extends Activity {
                 }
                 // Draw everything to the screen
 
-                ourHolder.unlockCanvasAndPost(canvas);
+                gameHolder.unlockCanvasAndPost(canvas);
             }
         }
         public void pause() {
@@ -319,7 +295,7 @@ public class GameCanvas extends Activity {
         super.onResume();
 
         // Tell the gameView resume method to execute
-        breakoutView.resume();
+        gameView.resume();
     }
     // This method executes when the player quits the game
     @Override
@@ -327,6 +303,6 @@ public class GameCanvas extends Activity {
         super.onPause();
 
         // Tell the gameView pause method to execute
-        breakoutView.pause();
+        gameView.pause();
     }
 }

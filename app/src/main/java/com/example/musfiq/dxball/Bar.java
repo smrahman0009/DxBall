@@ -10,7 +10,7 @@ public class Bar {
     private RectF rect;
 
     private int screenX;
-    private int screenY;
+  //  private int screenY;
 
     // How long and high our paddle will be
     private float length;
