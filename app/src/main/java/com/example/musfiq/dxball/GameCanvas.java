@@ -80,19 +80,18 @@ public class GameCanvas extends Activity {
             bar = new Bar(xResulation, yResulation);
 
             ball = new Ball();
+            ball.reset(xResulation, yResulation);
 
             this.ballSpeed=100;
             this.barSpeed=40;
 
             firstTime = true;
 
-            createBricksAndRestart();
+            makeBrickWall();
 
         }
-        public void createBricksAndRestart(){
+        public void makeBrickWall(){
 
-
-            ball.reset(xResulation, yResulation);
 
             int brickWidth = xResulation / 10;
             int brickHeight = yResulation / 10;
@@ -117,7 +116,6 @@ public class GameCanvas extends Activity {
                     numBricks ++;
                 }
             }
-
 
         }
 
@@ -168,7 +166,6 @@ public class GameCanvas extends Activity {
                     }
                 }
 
-                // Draw the HUD
 
                 // Choose the brush color for drawing
                 paint.setColor(Color.argb(255,  255, 255, 255));
@@ -219,7 +216,7 @@ public class GameCanvas extends Activity {
                     if(lives == 0){
                         isRunning = true;
                         finish();
-                        createBricksAndRestart();
+                        makeBrickWall();
                     }
 
                 }
@@ -245,7 +242,7 @@ public class GameCanvas extends Activity {
                 // Pause if cleared screen
                 if(score == numBricks * 10){
                     isRunning = true;
-                    createBricksAndRestart();
+                    makeBrickWall();
                 }
             }
 
