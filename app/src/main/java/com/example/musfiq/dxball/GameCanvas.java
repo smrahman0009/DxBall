@@ -101,11 +101,19 @@ public class GameCanvas extends Activity {
             numBricks = 0;
 
             int type=0;
+            int collisionCounter=0;
             for(int column = 0; column < 8; column ++ ){
                 for(int row = 0; row < 3; row ++ ){
-                    if(column%2==0)type=0;
-                    else  type=1;
-                    bricks[numBricks] = new Brick(row, column, brickWidth, brickHeight,type);
+                    if(column%2==0){
+                        type=0;
+                        bricks[numBricks] = new Brick(row, column, brickWidth, brickHeight,type,0);
+                    }
+                    else{
+
+                        type=1;
+                        bricks[numBricks] = new Brick(row, column, brickWidth, brickHeight,type,1);
+                    }
+
                     numBricks ++;
                 }
             }
@@ -182,7 +190,11 @@ public class GameCanvas extends Activity {
                     if (bricks[i].getVisibility()){
 
                         if(RectF.intersects(bricks[i].getBrick(),ball.getBall())) {
-                            bricks[i].setInvisible();
+                            if (bricks[i].getCollisionCounter()==0)bricks[i].setInvisible();
+                            else if (bricks[i].getCollisionCounter()==1){
+                                bricks[i].setCollisionCounter();
+                            }
+
                             ball.setVerticalSpeed();
                             score = score + 10;
                         }
