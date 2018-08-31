@@ -5,41 +5,40 @@ import android.graphics.RectF;
 import java.util.Random;
 
 public class Ball {
-    RectF rect;
-    float xVelocity;
-    float yVelocity;
+
+    float horaizontalSpeed;
+    float verticalSpeed;
     float ballWidth = 30;
     float ballHeight = 30;
+    RectF ball;
 
-    public Ball(int screenX, int screenY){
+    public Ball(){
 
-        // Start the ball travelling straight up at 100 pixels per second
-        xVelocity = 300;
-        yVelocity = -400;
 
-        // Place the ball in the centre of the screen at the bottom
-        // Make it a 10 pixel x 10 pixel square
-        rect = new RectF();
+        horaizontalSpeed = 300;
+        verticalSpeed = -400;
+
+        ball = new RectF();
 
     }
 
-    public RectF getRect(){
-        return rect;
+    public RectF getBall(){
+        return ball;
     }
 
-    public void update(long fps){
-        rect.left = rect.left + (xVelocity / fps);
-        rect.top = rect.top + (yVelocity / fps);
-        rect.right = rect.left + ballWidth;
-        rect.bottom = rect.top - ballHeight;
+    public void update(long ballPosition){
+        ball.left = ball.left + (horaizontalSpeed / ballPosition);
+        ball.top = ball.top + (verticalSpeed / ballPosition);
+        ball.right = ball.left + ballWidth;
+        ball.bottom = ball.top - ballHeight;
     }
 
-    public void reverseYVelocity(){
-        yVelocity = -yVelocity;
+    public void setVerticalSpeed(){
+        verticalSpeed = -verticalSpeed;
     }
 
     public void reverseXVelocity(){
-        xVelocity = - xVelocity;
+        horaizontalSpeed = -horaizontalSpeed;
     }
 
     public void setRandomXVelocity(){
@@ -51,21 +50,21 @@ public class Ball {
         }
     }
 
-    public void clearObstacleY(float y){
-        rect.bottom = y;
-        rect.top = y - ballHeight;
+    public void stopVtclOverlape(float y){
+        ball.bottom = y;
+        ball.top = y - ballHeight;
     }
 
-    public void clearObstacleX(float x){
-        rect.left = x;
-        rect.right = x + ballWidth;
+    public void stopHOverlap(float x){
+        ball.left = x;
+        ball.right = x + ballWidth;
     }
 
     public void reset(int x, int y){
-        rect.left = x / 2;
-        rect.top = y - 30;
-        rect.right = x / 2 + ballWidth;
-        rect.bottom = y - 20 - ballHeight;
+        ball.left = x / 2;
+        ball.top = y - 30;
+        ball.right = x / 2 + ballWidth;
+        ball.bottom = y - 20 - ballHeight;
     }
 
 }

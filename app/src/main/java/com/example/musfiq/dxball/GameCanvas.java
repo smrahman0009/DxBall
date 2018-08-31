@@ -32,9 +32,9 @@ public class GameCanvas extends Activity {
 
         SurfaceHolder gameHolder;
 
-        volatile boolean playing;
+         boolean playing;
 
-        boolean paused = true;
+        boolean isRunning = true;
 
         Canvas canvas;
         Paint paint;
@@ -44,8 +44,8 @@ public class GameCanvas extends Activity {
 
 
 
-        int screenX;
-        int screenY;
+        int xResulation;
+        int yResulation;
 
         Bar bar;
         Ball ball;
@@ -54,10 +54,10 @@ public class GameCanvas extends Activity {
 
 
 
-        // The score
+
         int score = 0;
 
-        // Lives
+
         int lives = 3;
 
 
@@ -74,13 +74,13 @@ public class GameCanvas extends Activity {
             Point size = new Point();
             display.getSize(size);
 
-            screenX = size.x;
-            screenY = size.y;
+            xResulation = size.x;
+            yResulation = size.y;
 
-            bar = new Bar(screenX,screenY);
-            ball = new Ball(screenX,screenY);
+            bar = new Bar(xResulation, yResulation);
 
-            //init ball speed and bar speed
+            ball = new Ball();
+
             this.ballSpeed=100;
             this.barSpeed=80;
 
@@ -91,13 +91,13 @@ public class GameCanvas extends Activity {
         }
         public void createBricksAndRestart(){
 
-            // Put the ball back to the start
-            ball.reset(screenX, screenY);
 
-            int brickWidth = screenX / 8;
-            int brickHeight = screenY / 10;
+            ball.reset(xResulation, yResulation);
 
-            // Build a wall of bricks
+            int brickWidth = xResulation / 10;
+            int brickHeight = yResulation / 10;
+
+
             numBricks = 0;
 
             for(int column = 0; column < 8; column ++ ){
@@ -106,7 +106,7 @@ public class GameCanvas extends Activity {
                     numBricks ++;
                 }
             }
-            // Reset scores and lives
+
 
         }
 
@@ -114,84 +114,76 @@ public class GameCanvas extends Activity {
         @Override
         public void run() {
             while (playing){
-
-               if(!paused){
-                    update();
-                }
-
-                // draw game canvas
-                draw();
-
+             runGame();
             }
         }
 
-        public void update(){
-            bar.update(barSpeed);
-            ball.update(ballSpeed);
+        public void runGame(){
 
-            // Check for ball colliding with a brick
-            for(int i = 0; i < numBricks; i++){
+            if(!isRunning){
+                bar.update(barSpeed);
+                ball.update(ballSpeed);
 
-                if (bricks[i].getVisibility()){
 
-                    if(RectF.intersects(bricks[i].getRect(),ball.getRect())) {
-                        bricks[i].setInvisible();
-                        ball.reverseYVelocity();
-                        score = score + 10;
+                for(int i = 0; i < numBricks; i++){
+
+                    if (bricks[i].getVisibility()){
+
+                        if(RectF.intersects(bricks[i].getBrick(),ball.getBall())) {
+                            bricks[i].setInvisible();
+                            ball.setVerticalSpeed();
+                            score = score + 10;
+                        }
                     }
                 }
-            }
-            // Check for ball colliding with paddle
-            if(RectF.intersects(bar.getRect(),ball.getRect())) {
-                ball.setRandomXVelocity();
-                ball.reverseYVelocity();
-                ball.clearObstacleY(bar.getRect().top - 100);
-            }
-
-            // Bounce the ball back when it hits the bottom of screen
-            // And deduct a life
-            if(ball.getRect().bottom > screenY){
-                ball.reverseYVelocity();
-                ball.clearObstacleY(screenY - 2);
-
-                // Lose a life
-                lives --;
-
-                if(lives == 0){
-                    paused = true;
-                    finish();
-                    createBricksAndRestart();
+                // Check for ball colliding with bar
+                if(RectF.intersects(bar.getBar(),ball.getBall())) {
+                    ball.setRandomXVelocity();
+                    ball.setVerticalSpeed();
+                    ball.stopVtclOverlape(bar.getBar().top - 100);
                 }
 
+                // Bounce the ball back when it hits the bottom of screen
+                // And deduct a life
+                if(ball.getBall().bottom > yResulation){
+                    ball.setVerticalSpeed();
+                    ball.stopVtclOverlape(yResulation - 2);
+
+                    // Lose a life
+                    lives --;
+
+                    if(lives == 0){
+                        isRunning = true;
+                        finish();
+                        createBricksAndRestart();
+                    }
+
+                }
+
+                // Bounce the ball back when it hits the top of screen
+                if(ball.getBall().top < 0){
+                    ball.setVerticalSpeed();
+                    ball.stopVtclOverlape(100);
+                }
+
+                // If the ball hits left wall bounce
+                if(ball.getBall().left < 0){
+                    ball.reverseXVelocity();
+                    ball.stopHOverlap(100);
+                }
+
+                // If the ball hits right wall bounce
+                if(ball.getBall().right > xResulation - 30){
+                    ball.reverseXVelocity();
+                    ball.stopHOverlap(xResulation - 100);
+                }
+
+                // Pause if cleared screen
+                if(score == numBricks * 10){
+                    isRunning = true;
+                    createBricksAndRestart();
+                }
             }
-
-            // Bounce the ball back when it hits the top of screen
-            if(ball.getRect().top < 0){
-                ball.reverseYVelocity();
-                ball.clearObstacleY(100);
-            }
-
-            // If the ball hits left wall bounce
-            if(ball.getRect().left < 0){
-                ball.reverseXVelocity();
-                ball.clearObstacleX(100);
-            }
-
-            // If the ball hits right wall bounce
-            if(ball.getRect().right > screenX - 30){
-                ball.reverseXVelocity();
-                ball.clearObstacleX(screenX - 100);
-            }
-
-            // Pause if cleared screen
-            if(score == numBricks * 10){
-                paused = true;
-                createBricksAndRestart();
-            }
-
-        }
-
-        public void draw(){
             if (gameHolder.getSurface().isValid()){
                 canvas = gameHolder.lockCanvas();
                 // Draw the background color
@@ -202,11 +194,12 @@ public class GameCanvas extends Activity {
                 paint.setColor(Color.argb(255, 100, 0, 0));
 
                 // Draw the paddle
-                canvas.drawRect(bar.getRect(), paint);
+                canvas.drawRect(bar.getBar(), paint);
+
 
                 // Draw the ball
                 paint.setColor(Color.argb(255, 0, 0, 50));
-                canvas.drawOval(ball.getRect(),paint);
+                canvas.drawOval(ball.getBall(),paint);
 
 
                 // Draw the bricks
@@ -215,7 +208,7 @@ public class GameCanvas extends Activity {
                 // Draw the bricks if visible
                 for(int i = 0; i < numBricks; i++){
                     if(bricks[i].getVisibility()) {
-                        canvas.drawRect(bricks[i].getRect(), paint);
+                        canvas.drawRect(bricks[i].getBrick(), paint);
                     }
                 }
 
@@ -228,22 +221,10 @@ public class GameCanvas extends Activity {
                 paint.setTextSize(40);
                 canvas.drawText("Score: " + score + "   Lives: " + lives, 10,50, paint);
 
-                // Has the player cleared the screen?
-                if(score == numBricks * 10){
-                    paint.setTextSize(90);
-                    canvas.drawText("YOU HAVE WON!", 10,screenY/2, paint);
-                }
-
-                // Has the player lost?
-                if(lives <= 0){
-                    paint.setTextSize(90);
-                    canvas.drawText("YOU HAVE LOST!", 10,screenY/2, paint);
-                }
-                // Draw everything to the screen
-
                 gameHolder.unlockCanvasAndPost(canvas);
             }
         }
+
         public void pause() {
             playing = false;
             try {
@@ -269,8 +250,8 @@ public class GameCanvas extends Activity {
 
                 // Player has touched the screen
                 case MotionEvent.ACTION_DOWN:
-                    paused=false;
-                    if (motionEvent.getX()>screenX/2){
+                    isRunning =false;
+                    if (motionEvent.getX()> xResulation /2){
                         bar.setMovementState(bar.RIGHT);
                     }
                     else {
