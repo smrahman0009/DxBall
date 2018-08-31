@@ -6,15 +6,17 @@ import java.util.Random;
 
 public class Ball {
 
-    float horaizontalSpeed;
-    float verticalSpeed;
-    float ballWidth = 30;
-    float ballHeight = 30;
+    private float horaizontalSpeed;
+    private float verticalSpeed;
+   private float ballWidth ;
+    private float ballHeight;
     RectF ball;
 
-    public Ball(){
+    public Ball(float ballHeight,float ballWidth){
 
 
+        this.ballHeight=30;
+        this.ballWidth=30;
         horaizontalSpeed = 300;
         verticalSpeed = -400;
 
@@ -22,6 +24,20 @@ public class Ball {
 
     }
 
+    public void setBallWidth(float width){
+        this.ballWidth=width;
+    }
+
+    public float getBallWidth(){
+        return this.ballWidth;
+    }
+    public void setBallHeight(float height){
+       this.ballHeight=height;
+    }
+
+    public float getBallHeight(){
+        return this.ballHeight;
+    }
     public RectF getBall(){
         return ball;
     }

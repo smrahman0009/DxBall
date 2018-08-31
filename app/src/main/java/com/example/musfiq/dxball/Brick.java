@@ -12,7 +12,7 @@ public class Brick {
         this.collisionCounter=collisionCounter;
         this.type=type;
         isVisible = true    ;
-        int padding = 1;
+        int padding = 0;
 
 
         brick = new RectF(col*width+padding,

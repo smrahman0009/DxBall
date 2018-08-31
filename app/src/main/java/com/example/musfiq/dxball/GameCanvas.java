@@ -77,13 +77,16 @@ public class GameCanvas extends Activity {
             xResulation = size.x;
             yResulation = size.y;
 
-            bar = new Bar(xResulation, yResulation);
+            int barMovementSpeed=0;
+            bar = new Bar(xResulation, yResulation,barMovementSpeed);
 
-            ball = new Ball();
+            int ballHeight=30;
+            int ballWidth=30;
+            ball = new Ball(ballHeight,ballWidth);
             ball.reset(xResulation, yResulation);
 
             this.ballSpeed=100;
-            this.barSpeed=40;
+            this.barSpeed=17;
 
             firstTime = true;
 
@@ -93,16 +96,16 @@ public class GameCanvas extends Activity {
         public void makeBrickWall(){
 
 
-            int brickWidth = xResulation / 10;
-            int brickHeight = yResulation / 10;
+            int brickWidth = xResulation / 15;
+            int brickHeight = yResulation / 15;
 
 
             numBricks = 0;
 
             int type=0;
             int collisionCounter=0;
-            for(int column = 0; column < 8; column ++ ){
-                for(int row = 0; row < 3; row ++ ){
+            for(int column = 0; column < 15; column ++ ){
+                for(int row = 0; row < 5; row ++ ){
                     if(column%2==0){
                         type=0;
                         bricks[numBricks] = new Brick(row, column, brickWidth, brickHeight,type,0);
@@ -131,26 +134,26 @@ public class GameCanvas extends Activity {
 
             if (gameHolder.getSurface().isValid()){
                 canvas = gameHolder.lockCanvas();
-                // Draw the background color
+
 
                 canvas.drawColor(Color.argb(255, 0, 100, 0));
 
-                // Choose the brush color for drawing
+
                 paint.setColor(Color.argb(255, 100, 0, 0));
 
                 // draw bar
                 canvas.drawRect(bar.getBar(), paint);
 
 
-                // Draw the ball
+
                 paint.setColor(Color.argb(255, 0, 0, 50));
                 canvas.drawOval(ball.getBall(),paint);
 
 
-                // Draw the bricks
 
 
-                // Draw the bricks if visible
+
+
                 for(int i = 0; i < numBricks; i++){
                     if(bricks[i].getVisibility()) {
 
@@ -167,12 +170,13 @@ public class GameCanvas extends Activity {
                 }
 
 
-                // Choose the brush color for drawing
+
                 paint.setColor(Color.argb(255,  255, 255, 255));
 
-                // Draw the score
+                // Draw  score
                 paint.setTextSize(40);
-                canvas.drawText("Score: " + score + "   Lives: " + lives, 10,50, paint);
+                canvas.drawText("Point: " + score , xResulation-200,50, paint);
+                canvas.drawText( " Lives: " + lives, xResulation-200,200, paint);
 
                 gameHolder.unlockCanvasAndPost(canvas);
             }
@@ -293,7 +297,7 @@ public class GameCanvas extends Activity {
 
     }
 
-    // This method executes when the player starts the game
+
     @Override
     protected void onResume() {
         super.onResume();

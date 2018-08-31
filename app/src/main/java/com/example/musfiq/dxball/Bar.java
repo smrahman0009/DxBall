@@ -2,10 +2,10 @@ package com.example.musfiq.dxball;
 
 import android.annotation.SuppressLint;
 import android.graphics.RectF;
-import android.util.Log;
 
 public class Bar {
 
+    private  int barMovementSpeed;
     private int screenX;
 
 
@@ -31,7 +31,8 @@ public class Bar {
 
 
     @SuppressLint("LongLogTag")
-    public Bar(int screenX, int screenY){
+    public Bar(int screenX, int screenY,int barMovementSpeed){
+        this.barMovementSpeed = barMovementSpeed;
         this.screenX=screenX;
 
         width = 200;
