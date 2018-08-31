@@ -138,7 +138,8 @@ public class GameCanvas extends Activity {
                 // time animations and more.
                 timeThisFrame = System.currentTimeMillis() - startFrameTime;
                 if (timeThisFrame >= 1) {
-                    fps = 1000 / timeThisFrame;
+                   // fps = 1000 / timeThisFrame;
+                    fps = 100;
                 }
             }
         }
