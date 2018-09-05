@@ -86,7 +86,7 @@ public class GameCanvas extends Activity {
             ball.reset(xResulation, yResulation);
 
             this.gameLevel=1;
-            this.ballSpeed=70;
+            this.ballSpeed=40;
             this.barSpeed=17;
 
             firstTime = true;
@@ -98,7 +98,7 @@ public class GameCanvas extends Activity {
 
 
             int brickWidth = xResulation / 8;
-            int brickHeight = yResulation / 12;
+            int brickHeight = yResulation /6;
 
 
             numBricks = 0;
@@ -106,8 +106,8 @@ public class GameCanvas extends Activity {
             int type=0;
             int collisionCounter=0;
             if (gameLevel==1){
-                for(int column = 0; column < 10; column ++ ){
-                    for(int row = 0; row < 2; row ++ ){
+                for(int column = 0; column < 8; column ++ ){
+                    for(int row = 0; row < 1; row ++ ){
                         if(column%2==0){
                             type=0;
                             bricks[numBricks] = new Brick(row, column, brickWidth, brickHeight,type,0);
@@ -123,8 +123,8 @@ public class GameCanvas extends Activity {
                 }
             }
             else if (gameLevel>=2){
-                for(int column = 0; column < 10; column ++ ){
-                    for(int row = 0; row < 4; row ++ ){
+                for(int column = 0; column < 8; column ++ ){
+                    for(int row = 0; row <2; row ++ ){
                         if(column%2==0){
                             type=0;
                             bricks[numBricks] = new Brick(row, column, brickWidth, brickHeight,type,0);
@@ -146,11 +146,12 @@ public class GameCanvas extends Activity {
         @Override
         public void run() {
             while (playing){
+                setInitPosition();
              runGame();
             }
         }
 
-        public void runGame(){
+        public  void setInitPosition(){
 
             if (gameHolder.getSurface().isValid()){
                 canvas = gameHolder.lockCanvas();
@@ -215,10 +216,14 @@ public class GameCanvas extends Activity {
                 paint.setTextSize(40);
                 canvas.drawText("Point: " + score , xResulation-200,50, paint);
                 canvas.drawText( " Lives: " + lives, xResulation-200,200, paint);
-                canvas.drawText( " gameLevel: " + gameLevel, xResulation-600,200, paint);
+                canvas.drawText( " gameLevel: " + gameLevel, xResulation-600,50, paint);
 
                 gameHolder.unlockCanvasAndPost(canvas);
             }
+
+        }
+
+        public void runGame(){
 
             if(!isRunning){
                 if (gameLevel==1){
@@ -290,6 +295,8 @@ public class GameCanvas extends Activity {
                 // Pause if cleared screen
                 if(score == numBricks * 10){
                     gameLevel=2;
+                    ball.reset(xResulation,yResulation);
+                    setInitPosition();
                    // isRunning = true;
                     makeBrickWall();
                 }
