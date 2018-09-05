@@ -40,7 +40,7 @@ public class Bar {
 
 
         x = screenX / 2;
-        y = screenY -20;
+        y = screenY -30;
 
        rect = new RectF(x, y, x + width, y + height);
     }

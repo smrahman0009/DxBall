@@ -15,10 +15,10 @@ public class Ball {
     public Ball(float ballHeight,float ballWidth){
 
 
-        this.ballHeight=30;
-        this.ballWidth=30;
+        this.ballHeight=40;
+        this.ballWidth=40;
         horaizontalSpeed = 300;
-        verticalSpeed = -400;
+        verticalSpeed = -300;
 
         ball = new RectF();
 
@@ -80,7 +80,7 @@ public class Ball {
         ball.left = x / 2;
         ball.top = y - 30;
         ball.right = x / 2 + ballWidth;
-        ball.bottom = y - 20 - ballHeight;
+        ball.bottom = y -30 - ballHeight;
     }
 
 }

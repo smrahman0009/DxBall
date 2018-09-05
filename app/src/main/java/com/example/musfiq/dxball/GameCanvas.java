@@ -49,12 +49,12 @@ public class GameCanvas extends Activity {
 
         Bar bar;
         Ball ball;
-        Brick[] bricks = new Brick[200];
+        Brick[] bricks = new Brick[100];
         int numBricks = 0;
 
 
 
-
+        int gameLevel;
         int score = 0;
 
 
@@ -85,7 +85,8 @@ public class GameCanvas extends Activity {
             ball = new Ball(ballHeight,ballWidth);
             ball.reset(xResulation, yResulation);
 
-            this.ballSpeed=100;
+            this.gameLevel=1;
+            this.ballSpeed=70;
             this.barSpeed=17;
 
             firstTime = true;
@@ -96,27 +97,46 @@ public class GameCanvas extends Activity {
         public void makeBrickWall(){
 
 
-            int brickWidth = xResulation / 15;
-            int brickHeight = yResulation / 15;
+            int brickWidth = xResulation / 8;
+            int brickHeight = yResulation / 12;
 
 
             numBricks = 0;
 
             int type=0;
             int collisionCounter=0;
-            for(int column = 0; column < 15; column ++ ){
-                for(int row = 0; row < 5; row ++ ){
-                    if(column%2==0){
-                        type=0;
-                        bricks[numBricks] = new Brick(row, column, brickWidth, brickHeight,type,0);
-                    }
-                    else{
+            if (gameLevel==1){
+                for(int column = 0; column < 10; column ++ ){
+                    for(int row = 0; row < 2; row ++ ){
+                        if(column%2==0){
+                            type=0;
+                            bricks[numBricks] = new Brick(row, column, brickWidth, brickHeight,type,0);
+                        }
+                        else{
 
-                        type=1;
-                        bricks[numBricks] = new Brick(row, column, brickWidth, brickHeight,type,1);
-                    }
+                            type=1;
+                            bricks[numBricks] = new Brick(row, column, brickWidth, brickHeight,type,1);
+                        }
 
-                    numBricks ++;
+                        numBricks ++;
+                    }
+                }
+            }
+            else if (gameLevel>=2){
+                for(int column = 0; column < 10; column ++ ){
+                    for(int row = 0; row < 4; row ++ ){
+                        if(column%2==0){
+                            type=0;
+                            bricks[numBricks] = new Brick(row, column, brickWidth, brickHeight,type,0);
+                        }
+                        else{
+
+                            type=1;
+                            bricks[numBricks] = new Brick(row, column, brickWidth, brickHeight,type,1);
+                        }
+
+                        numBricks ++;
+                    }
                 }
             }
 
@@ -154,18 +174,36 @@ public class GameCanvas extends Activity {
 
 
 
-                for(int i = 0; i < numBricks; i++){
-                    if(bricks[i].getVisibility()) {
+                if (gameLevel==1){
+                    for(int i = 0; i < numBricks; i++){
+                        if(bricks[i].getVisibility()) {
 
-                        if (bricks[i].getType()==1) {
-                            paint.setColor(Color.argb(255,  0, 0, 150 ));
-                            canvas.drawRect(bricks[i].getBrick(), paint);
-                        }
-                        else if (bricks[i].getType()==0){
-                            paint.setColor(Color.argb(255,  150, 0, 0));
-                            canvas.drawRect(bricks[i].getBrick(), paint);
-                        }
+                            if (bricks[i].getType()==1) {
+                                paint.setColor(Color.argb(255,  0, 0, 150 ));
+                                canvas.drawRect(bricks[i].getBrick(), paint);
+                            }
+                            else if (bricks[i].getType()==0){
+                                paint.setColor(Color.argb(255,  150, 0, 0));
+                                canvas.drawRect(bricks[i].getBrick(), paint);
+                            }
 
+                        }
+                    }
+                }
+                else if (gameLevel>=2){
+                    for(int i = 0; i < numBricks; i++){
+                        if(bricks[i].getVisibility()) {
+
+                            if (bricks[i].getType()==1) {
+                                paint.setColor(Color.argb(255,  100, 0, 100 ));
+                                canvas.drawRect(bricks[i].getBrick(), paint);
+                            }
+                            else if (bricks[i].getType()==0){
+                                paint.setColor(Color.argb(255,  50, 50, 50));
+                                canvas.drawRect(bricks[i].getBrick(), paint);
+                            }
+
+                        }
                     }
                 }
 
@@ -177,15 +215,21 @@ public class GameCanvas extends Activity {
                 paint.setTextSize(40);
                 canvas.drawText("Point: " + score , xResulation-200,50, paint);
                 canvas.drawText( " Lives: " + lives, xResulation-200,200, paint);
+                canvas.drawText( " gameLevel: " + gameLevel, xResulation-600,200, paint);
 
                 gameHolder.unlockCanvasAndPost(canvas);
             }
 
             if(!isRunning){
+                if (gameLevel==1){
+                    ball.update(ballSpeed);
+                }
+                else if (gameLevel>=2){
+                    ball.update(ballSpeed/gameLevel);
+                }
                 bar.update(barSpeed);
-                ball.update(ballSpeed);
 
-
+                //Balls collision with bricks
                 for(int i = 0; i < numBricks; i++){
 
                     if (bricks[i].getVisibility()){
@@ -205,7 +249,7 @@ public class GameCanvas extends Activity {
                 if(RectF.intersects(bar.getBar(),ball.getBall())) {
                     ball.setRandomXVelocity();
                     ball.setVerticalSpeed();
-                    ball.stopVtclOverlape(bar.getBar().top - 100);
+                    ball.stopVtclOverlape(bar.getBar().top - 2);
                 }
 
 
@@ -215,6 +259,7 @@ public class GameCanvas extends Activity {
 
                     // Lose a life
                     lives --;
+                    //when total numBricks=0 then game finish
 
                     if(lives == 0){
                         isRunning = true;
@@ -224,27 +269,28 @@ public class GameCanvas extends Activity {
 
                 }
 
-                // Bounce the ball back when it hits the top of screen
                 if(ball.getBall().top < 0){
                     ball.setVerticalSpeed();
+
                     ball.stopVtclOverlape(100);
                 }
 
                 // If the ball hits left wall bounce
                 if(ball.getBall().left < 0){
                     ball.reverseXVelocity();
-                    ball.stopHOverlap(100);
+                    ball.stopHOverlap(20);
                 }
 
                 // If the ball hits right wall bounce
-                if(ball.getBall().right > xResulation - 30){
+                if(ball.getBall().right > xResulation){
                     ball.reverseXVelocity();
-                    ball.stopHOverlap(xResulation - 100);
+                    ball.stopHOverlap(xResulation - 50);
                 }
 
                 // Pause if cleared screen
                 if(score == numBricks * 10){
-                    isRunning = true;
+                    gameLevel=2;
+                   // isRunning = true;
                     makeBrickWall();
                 }
             }
