@@ -62,7 +62,10 @@ public class Bar {
 
         return rect;
     }
-
+    public void barPositionReset(){
+        rect.left = screenX/2;
+        rect.right=x+width;
+    }
 
     public void setMovementState(int state){
         paddleMoving = state;

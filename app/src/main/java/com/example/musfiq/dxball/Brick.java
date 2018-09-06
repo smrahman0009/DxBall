@@ -40,6 +40,6 @@ public class Brick {
     }
 
     public boolean getVisibility(){
-        return isVisible;
+        return this.isVisible;
     }
 }

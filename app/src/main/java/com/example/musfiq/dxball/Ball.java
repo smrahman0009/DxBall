@@ -15,8 +15,8 @@ public class Ball {
     public Ball(float ballHeight,float ballWidth){
 
 
-        this.ballHeight=40;
-        this.ballWidth=40;
+        this.ballHeight=15;
+        this.ballWidth=15;
         horaizontalSpeed = 300;
         verticalSpeed = -300;
 

@@ -27,25 +27,24 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
 
-    private Button button;
+    private Button button,buttonExit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openGameCanvas();
-            }
-        });
+        buttonExit =findViewById(R.id.buttonExit);
 
     }
-    public void openGameCanvas(){
+    public void openGameCanvas(View view){
         Intent intent = new Intent(this,GameCanvas.class);
         startActivity(intent);
 
+    }
+    public void exitGame(View view){
+        finish();
+        System.exit(0);
     }
 
 }
