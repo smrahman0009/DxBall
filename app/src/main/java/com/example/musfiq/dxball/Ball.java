@@ -56,14 +56,36 @@ public class Ball {
     public void reverseXVelocity(){
         horaizontalSpeed = -horaizontalSpeed;
     }
-
+    public void reverse65XVelocity(){
+        horaizontalSpeed = -(horaizontalSpeed+30);
+    }
+    public void reverse35XVelocity(){
+        horaizontalSpeed = horaizontalSpeed+30;
+    }
+    public void reverse25XVelocity(){
+        horaizontalSpeed = horaizontalSpeed+50;
+    }
+    public void reverse75XVelocity(){
+        horaizontalSpeed = -(horaizontalSpeed+50);
+    }
     public void setRandomXVelocity(){
         Random generator = new Random();
-        int answer = generator.nextInt(2);
+        int answer = generator.nextInt(5);
 
         if(answer == 0){
             reverseXVelocity();
         }
+        else if(answer==1){
+            reverse65XVelocity();
+        }
+        else if (answer==2){
+            reverse35XVelocity();
+        }
+        else if (answer==3){
+            reverse25XVelocity();
+        }
+        else reverse75XVelocity();
+
     }
 
     public void stopVtclOverlape(float y){

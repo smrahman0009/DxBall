@@ -91,7 +91,7 @@ public class GameCanvas extends Activity {
             this.ballSpeed=40;
             this.barSpeed=17;
 
-            this.wallRows=4;
+            this.wallRows=2;
 
             firstTime = true;
 
@@ -191,12 +191,9 @@ public class GameCanvas extends Activity {
         public void runGame(){
 
             if(!isRunning){
-                if (gameLevel==1){
-                    ball.update(ballSpeed);
-                }
-                else if (gameLevel>=2){
-                    ball.update(ballSpeed-(gameLevel*5));
-                }
+
+
+                ball.update(ballSpeed);
                 bar.update(barSpeed);
 
                 //Balls collision with bricks
@@ -261,21 +258,28 @@ public class GameCanvas extends Activity {
                     ball.stopHOverlap(xResulation - 50);
                 }
 
-                // Pause if cleared screen
-                if(score==numBricks*10&&gameLevel==1){
-                    gameLevel=2;
-                    ball.reset(xResulation,yResulation);
-                    bar.barPositionReset();
-                  //  setInitPosition();
-                    isRunning = true;
-                   // this.wallRows=2;
-                    makeBrickWall();
-                }
-                else if(score==numBricks*10&&gameLevel==2){
-                   // isRunning=true;
-                   // makeBrickWall();
+               /* if (score==numBricks*10&&gameLevel==3){
                     finish();
                 }
+                if (score==numBricks*10&&gameLevel==2){
+                    gameLevel=3;
+                }*/
+                // Pause if cleared screen
+                //numBricks*10
+                if(score==numBricks*10 ){
+                   if (gameLevel==1){
+                       this.wallRows=4;
+                       gameLevel=2;
+                       ballSpeed=ballSpeed-15;
+                       ball.reset(xResulation,yResulation);
+                       bar.barPositionReset();
+                       //  setInitPosition();
+                       isRunning = false;
+                       // this.wallRows=2;
+                       makeBrickWall();
+                   }
+                }
+
 
             }
 
