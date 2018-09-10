@@ -57,16 +57,16 @@ public class Ball {
         horaizontalSpeed = -horaizontalSpeed;
     }
     public void reverse65XVelocity(){
-        horaizontalSpeed = -(horaizontalSpeed+30);
+        horaizontalSpeed = -(horaizontalSpeed+20);
     }
     public void reverse35XVelocity(){
-        horaizontalSpeed = horaizontalSpeed+30;
+        horaizontalSpeed = -(horaizontalSpeed-7);
     }
     public void reverse25XVelocity(){
-        horaizontalSpeed = horaizontalSpeed+50;
+        horaizontalSpeed = -(horaizontalSpeed+40);
     }
     public void reverse75XVelocity(){
-        horaizontalSpeed = -(horaizontalSpeed+50);
+        horaizontalSpeed = -(horaizontalSpeed-5);
     }
     public void setRandomXVelocity(){
         Random generator = new Random();

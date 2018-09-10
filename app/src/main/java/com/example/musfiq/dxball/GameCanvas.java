@@ -61,12 +61,13 @@ public class GameCanvas extends Activity {
         int lives = 3;
 
         int wallRows;
+        int levelTracker;
 
 
 
         public DxBall(Context context){
             super(context);
-
+            levelTracker=0;
 
             gameHolder =getHolder();
             paint=new Paint();
@@ -124,6 +125,7 @@ public class GameCanvas extends Activity {
                         }
 
                         numBricks ++;
+
                     }
                 }
 
@@ -181,7 +183,7 @@ public class GameCanvas extends Activity {
                 canvas.drawText("Point: " + score , xResulation-200,50, paint);
                 canvas.drawText( " Lives: " + lives, xResulation-200,200, paint);
                 canvas.drawText( " gameLevel: " + gameLevel, xResulation-600,50, paint);
-               // canvas.drawText( " bricks : " + numBricks, xResulation-600,200, paint);
+         //       canvas.drawText( " destroyed bricks : " + destroyedBricks, xResulation-600,200, paint);
 
                 gameHolder.unlockCanvasAndPost(canvas);
             }
@@ -206,6 +208,8 @@ public class GameCanvas extends Activity {
                                 bricks[i].setInvisible();
                               //  numBricks--;
                                 score = score + 10;
+                                levelTracker++;
+
                             }
                             else if (bricks[i].getCollisionCounter()==1){
                                 bricks[i].setCollisionCounter();
@@ -267,17 +271,20 @@ public class GameCanvas extends Activity {
                 // Pause if cleared screen
                 //numBricks*10
                 if(score==numBricks*10 ){
-                   if (gameLevel==1){
+                    //gameLevel
+                   if (levelTracker==16){
                        this.wallRows=4;
                        gameLevel=2;
-                       ballSpeed=ballSpeed-15;
+                      // ballSpeed=ballSpeed-15;
                        ball.reset(xResulation,yResulation);
                        bar.barPositionReset();
                        //  setInitPosition();
-                       isRunning = false;
+                       //isRunning = true;
                        // this.wallRows=2;
                        makeBrickWall();
+                      // levelTracker=0;
                    }
+                   if (levelTracker==48)finish();
                 }
 
 
