@@ -5,67 +5,104 @@ import android.graphics.RectF;
 import java.util.Random;
 
 public class Ball {
-    RectF rect;
-    float xVelocity;
-    float yVelocity;
-    float ballWidth = 30;
-    float ballHeight = 30;
 
-    public Ball(int screenX, int screenY){
+    private float horaizontalSpeed;
+    private float verticalSpeed;
+    private float ballWidth ;
+    private float ballHeight;
+    RectF ball;
 
-        // Start the ball travelling straight up at 100 pixels per second
-        xVelocity = 300;
-        yVelocity = -400;
+    public Ball(float ballHeight,float ballWidth){
 
-        // Place the ball in the centre of the screen at the bottom
-        // Make it a 10 pixel x 10 pixel square
-        rect = new RectF();
+
+        this.ballHeight=15;
+        this.ballWidth=15;
+        horaizontalSpeed = 300;
+        verticalSpeed = -300;
+
+        ball = new RectF();
 
     }
 
-    public RectF getRect(){
-        return rect;
+    public void setBallWidth(float width){
+        this.ballWidth=width;
     }
 
-    public void update(long fps){
-        rect.left = rect.left + (xVelocity / fps);
-        rect.top = rect.top + (yVelocity / fps);
-        rect.right = rect.left + ballWidth;
-        rect.bottom = rect.top - ballHeight;
+    public float getBallWidth(){
+        return this.ballWidth;
+    }
+    public void setBallHeight(float height){
+        this.ballHeight=height;
     }
 
-    public void reverseYVelocity(){
-        yVelocity = -yVelocity;
+    public float getBallHeight(){
+        return this.ballHeight;
+    }
+    public RectF getBall(){
+        return ball;
+    }
+
+    public void update(long ballPosition){
+        ball.left = ball.left + (horaizontalSpeed / ballPosition);
+        ball.top = ball.top + (verticalSpeed / ballPosition);
+        ball.right = ball.left + ballWidth;
+        ball.bottom = ball.top - ballHeight;
+    }
+
+    public void setVerticalSpeed(){
+        verticalSpeed = -verticalSpeed;
     }
 
     public void reverseXVelocity(){
-        xVelocity = - xVelocity;
+        horaizontalSpeed = -horaizontalSpeed;
     }
-
+    public void reverse65XVelocity(){
+        horaizontalSpeed = -(horaizontalSpeed+20);
+    }
+    public void reverse35XVelocity(){
+        horaizontalSpeed = -(horaizontalSpeed-7);
+    }
+    public void reverse25XVelocity(){
+        horaizontalSpeed = -(horaizontalSpeed+40);
+    }
+    public void reverse75XVelocity(){
+        horaizontalSpeed = -(horaizontalSpeed-5);
+    }
     public void setRandomXVelocity(){
         Random generator = new Random();
-        int answer = generator.nextInt(2);
+        int answer = generator.nextInt(5);
 
         if(answer == 0){
             reverseXVelocity();
         }
+        else if(answer==1){
+            reverse65XVelocity();
+        }
+        else if (answer==2){
+            reverse35XVelocity();
+        }
+        else if (answer==3){
+            reverse25XVelocity();
+        }
+        else reverse75XVelocity();
+
     }
 
-    public void clearObstacleY(float y){
-        rect.bottom = y;
-        rect.top = y - ballHeight;
+    public void stopVtclOverlape(float y){
+        ball.bottom = y;
+        ball.top = y - ballHeight;
     }
 
-    public void clearObstacleX(float x){
-        rect.left = x;
-        rect.right = x + ballWidth;
+    public void stopHOverlap(float x){
+        ball.left = x;
+        ball.right = x + ballWidth;
     }
 
     public void reset(int x, int y){
-        rect.left = x / 2;
-        rect.top = y - 30;
-        rect.right = x / 2 + ballWidth;
-        rect.bottom = y - 20 - ballHeight;
+        ball.left = x / 2;
+        ball.top = y - 30;
+        ball.right = x / 2 + ballWidth;
+        ball.bottom = y -30 - ballHeight;
     }
 
 }
