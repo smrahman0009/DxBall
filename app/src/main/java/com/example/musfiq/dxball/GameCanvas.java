@@ -28,6 +28,10 @@ public class GameCanvas extends Activity {
     }
 
     class DxBall extends SurfaceView implements Runnable{
+
+        private boolean GAME_LEVEL_ONE;
+        private boolean GAME_LEVEL_TWO;
+        private boolean GAME_LEVEL_THREE;
         boolean firstTime;
         Thread gameThread = null;
 
@@ -69,6 +73,11 @@ public class GameCanvas extends Activity {
         public DxBall(Context context){
             super(context);
             levelTracker=0;
+
+            //init game level
+            GAME_LEVEL_ONE=true;
+            GAME_LEVEL_TWO = false;
+            GAME_LEVEL_THREE=false;
 
             gameHolder =getHolder();
             paint=new Paint();
@@ -114,11 +123,11 @@ public class GameCanvas extends Activity {
 
             int type=0;
             int collisionCounter=0;
-            //build wall
 
+            //set Bricks positions
             for(int column = 0; column < 8; column ++ ){
                 for(int row = 0; row < this.wallRows; row ++ ){
-                    if(column%2==0){
+                    if(column%2==0 && row%2==0){
                         type=0;
                         bricks[numBricks] = new Brick(row, column, brickWidth, brickHeight,type,0);
                     }
@@ -149,13 +158,15 @@ public class GameCanvas extends Activity {
             if (gameHolder.getSurface().isValid()){
                 canvas = gameHolder.lockCanvas();
 
+                //DRAW BACKGROUND
 
-                canvas.drawColor(Color.argb(255, 0, 100, 0));
+                canvas.drawColor(Color.parseColor("#4CAF50"));
 
 
-                paint.setColor(Color.argb(255, 100, 0, 0));
+
 
                 // draw bar
+                paint.setColor(Color.parseColor("#0272A6"));
                 canvas.drawRect(bar.getBar(), paint);
 
 
@@ -165,22 +176,24 @@ public class GameCanvas extends Activity {
 
 
 
+                //Draw Wall
                 for(int i = 0; i < numBricks; i++){
                     if(bricks[i].getVisibility()) {
 
                         if (bricks[i].getType()==1) {
-                            paint.setColor(Color.argb(255,  0, 0, 150 ));
+                            paint.setColor(Color.parseColor("#FFEB3B"));
                             canvas.drawRect(bricks[i].getBrick(), paint);
                         }
                         else if (bricks[i].getType()==0){
-                            paint.setColor(Color.argb(255,  150, 0, 0));
+                            paint.setColor(Color.parseColor("#FFC107"));
                             canvas.drawRect(bricks[i].getBrick(), paint);
+
                         }
 
                     }
                 }
 
-                paint.setColor(Color.argb(255,  255, 255, 255));
+                paint.setColor(Color.argb(255,  0, 0, 2));
 
                 // Draw  score
                 paint.setTextSize(40);
@@ -216,7 +229,13 @@ public class GameCanvas extends Activity {
 
                             }
                             else if (bricks[i].getCollisionCounter()==1){
-                                bricks[i].setCollisionCounter();
+                               // bricks[i].setCollisionCounter();
+                                //next 4 line of code shoulod be removed to enable two touches of brick
+                                bricks[i].setInvisible();
+                                //  numBricks--;
+                                score = score + 10;
+                                levelTracker++;
+
                             }
 
                             ball.setVerticalSpeed();
@@ -274,11 +293,13 @@ public class GameCanvas extends Activity {
                 }*/
                 // Pause if cleared screen
                 //numBricks*10
-                if(score==numBricks*10 ){
+               // if(score==numBricks*10 ){
                     //gameLevel
-                    if (levelTracker==16){
-                        this.wallRows=4;
+                    if (score == 160 && GAME_LEVEL_ONE==true){
+                       GAME_LEVEL_ONE=false;
+                       GAME_LEVEL_TWO=true;
                         gameLevel=2;
+                        this.wallRows=3;
                         // ballSpeed=ballSpeed-15;
                         ball.reset(xResulation,yResulation);
                         bar.barPositionReset();
@@ -288,8 +309,28 @@ public class GameCanvas extends Activity {
                         makeBrickWall();
                         // levelTracker=0;
                     }
-                    if (levelTracker==48)finish();
-                }
+                    else if (score == 400 && GAME_LEVEL_TWO==true){
+                            GAME_LEVEL_TWO=false;
+                            GAME_LEVEL_THREE = true;
+                            gameLevel=3;
+                            this.wallRows=4;
+                            ball.reset(xResulation,yResulation);
+                            bar.barPositionReset();
+                            makeBrickWall();
+
+                    }
+                    else if (score == 720 && GAME_LEVEL_THREE==true){
+                            GAME_LEVEL_TWO=false;
+                            GAME_LEVEL_THREE = true;
+                            gameLevel=1;
+                            this.wallRows=2;
+                            ball.reset(xResulation,yResulation);
+                            bar.barPositionReset();
+                            makeBrickWall();
+
+                            // finish();
+                    }
+               // }
 
 
             }
