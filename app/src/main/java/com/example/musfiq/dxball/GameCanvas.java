@@ -86,7 +86,7 @@ public class GameCanvas extends Activity {
             bar = new Bar(xResulation, yResulation,barMovementSpeed);
 
 
-            //Draw ball
+            //set Ball property
             int ballHeight=30;
             int ballWidth=30;
             ball = new Ball(ballHeight,ballWidth);
