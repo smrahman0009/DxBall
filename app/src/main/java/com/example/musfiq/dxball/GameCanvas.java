@@ -87,9 +87,9 @@ public class GameCanvas extends Activity {
 
 
             //set Ball property
-            int ballHeight=30;
-            int ballWidth=30;
-            ball = new Ball(ballHeight,ballWidth);
+            //I consider ball width is as ball radius
+            ball = new Ball();
+            ball.setBallWidth(15);
             ball.reset(xResulation, yResulation);
 
             this.gameLevel=1;

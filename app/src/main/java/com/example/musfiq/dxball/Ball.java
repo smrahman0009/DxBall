@@ -12,11 +12,11 @@ public class Ball {
     private float ballHeight;
     RectF ball;
 
-    public Ball(float ballHeight,float ballWidth){
+    public Ball(){
 
 
-        this.ballHeight=15;
-        this.ballWidth=15;
+      //  this.ballHeight=15;
+      //  this.ballWidth=15;
         horaizontalSpeed = 300;
         verticalSpeed = -300;
 
@@ -31,13 +31,14 @@ public class Ball {
     public float getBallWidth(){
         return this.ballWidth;
     }
-    public void setBallHeight(float height){
+  /*  public void setBallHeight(float height){
         this.ballHeight=height;
-    }
+    }*/
 
-    public float getBallHeight(){
+ /*   public float getBallHeight(){
         return this.ballHeight;
     }
+    */
     public RectF getBall(){
         return ball;
     }
@@ -46,7 +47,7 @@ public class Ball {
         ball.left = ball.left + (horaizontalSpeed / ballPosition);
         ball.top = ball.top + (verticalSpeed / ballPosition);
         ball.right = ball.left + ballWidth;
-        ball.bottom = ball.top - ballHeight;
+        ball.bottom = ball.top - ballWidth;
     }
 
     public void setVerticalSpeed(){
@@ -90,7 +91,7 @@ public class Ball {
 
     public void stopVtclOverlape(float y){
         ball.bottom = y;
-        ball.top = y - ballHeight;
+        ball.top = y - ballWidth;
     }
 
     public void stopHOverlap(float x){
@@ -102,7 +103,7 @@ public class Ball {
         ball.left = x / 2;
         ball.top = y - 30;
         ball.right = x / 2 + ballWidth;
-        ball.bottom = y -30 - ballHeight;
+        ball.bottom = y -30 - ballWidth;
     }
 
 }
