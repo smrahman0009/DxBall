@@ -73,6 +73,7 @@ public class GameCanvas extends Activity {
             gameHolder =getHolder();
             paint=new Paint();
 
+            //Get Screen Resulation or Size
             Display display = getWindowManager().getDefaultDisplay();
 
             Point size = new Point();
@@ -84,6 +85,8 @@ public class GameCanvas extends Activity {
             int barMovementSpeed=0;
             bar = new Bar(xResulation, yResulation,barMovementSpeed);
 
+
+            //Draw ball
             int ballHeight=30;
             int ballWidth=30;
             ball = new Ball(ballHeight,ballWidth);
@@ -104,7 +107,7 @@ public class GameCanvas extends Activity {
 
 
             int brickWidth = xResulation / 8;
-            int brickHeight = yResulation /7;
+            int brickHeight = yResulation /12;
 
 
             numBricks = 0;
