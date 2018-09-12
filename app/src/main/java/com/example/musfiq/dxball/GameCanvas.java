@@ -37,7 +37,7 @@ public class GameCanvas extends Activity {
         private boolean GAME_LEVEL_ONE;
         private boolean GAME_LEVEL_TWO;
         private boolean GAME_LEVEL_THREE;
-        boolean firstTime;
+    //    boolean firstTime;
         Thread gameThread = null;
 
         SurfaceHolder gameHolder;
@@ -125,7 +125,7 @@ public class GameCanvas extends Activity {
 
             this.wallRows=2;
 
-            firstTime = true;
+         //   firstTime = true;
 
             // Load the sounds
 
