@@ -198,9 +198,8 @@ public class GameCanvas extends Activity {
                 // Draw  score
                 paint.setTextSize(40);
                 canvas.drawText("Point: " + score , xResulation-200,50, paint);
-                canvas.drawText( " Lives: " + lives, xResulation-200,200, paint);
                 canvas.drawText( " gameLevel: " + gameLevel, xResulation-600,50, paint);
-                //       canvas.drawText( " destroyed bricks : " + destroyedBricks, xResulation-600,200, paint);
+                canvas.drawText( " Lives: " + lives, xResulation-1000,50, paint);
 
                 gameHolder.unlockCanvasAndPost(canvas);
             }
@@ -223,19 +222,13 @@ public class GameCanvas extends Activity {
                         if(RectF.intersects(bricks[i].getBrick(),ball.getBall())) {
                             if (bricks[i].getCollisionCounter()==0){
                                 bricks[i].setInvisible();
-                                //  numBricks--;
                                 score = score + 10;
                                 levelTracker++;
 
                             }
                             else if (bricks[i].getCollisionCounter()==1){
-                               // bricks[i].setCollisionCounter();
-                                //next 4 line of code shoulod be removed to enable two touches of brick
-                                bricks[i].setInvisible();
-                                //  numBricks--;
-                                score = score + 10;
-                                levelTracker++;
-
+                                bricks[i].setType(0);
+                                bricks[i].setCollisionCounter();
                             }
 
                             ball.setVerticalSpeed();
@@ -285,27 +278,14 @@ public class GameCanvas extends Activity {
                     ball.stopHOverlap(xResulation - 50);
                 }
 
-               /* if (score==numBricks*10&&gameLevel==3){
-                    finish();
-                }
-                if (score==numBricks*10&&gameLevel==2){
-                    gameLevel=3;
-                }*/
-                // Pause if cleared screen
-                //numBricks*10
-               // if(score==numBricks*10 ){
-                    //gameLevel
+                    //check game score and  go to the next level
                     if (score == 160 && GAME_LEVEL_ONE==true){
                        GAME_LEVEL_ONE=false;
                        GAME_LEVEL_TWO=true;
                         gameLevel=2;
                         this.wallRows=3;
-                        // ballSpeed=ballSpeed-15;
                         ball.reset(xResulation,yResulation);
                         bar.barPositionReset();
-                        //  setInitPosition();
-                        //isRunning = true;
-                        // this.wallRows=2;
                         makeBrickWall();
                         // levelTracker=0;
                     }
