@@ -35,9 +35,14 @@ public class Brick {
         isVisible = false;
     }
 
+    public void setType(int type){
+        this.type =type;
+    }
+
     public int getType(){
         return this.type;
     }
+
 
     public boolean getVisibility(){
         return this.isVisible;
