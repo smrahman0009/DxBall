@@ -2,17 +2,23 @@ package com.example.musfiq.dxball;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.AssetFileDescriptor;
+import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import java.io.IOException;
 
 public class GameCanvas extends Activity {
 
@@ -56,10 +62,23 @@ public class GameCanvas extends Activity {
         Brick[] bricks = new Brick[100];
         int numBricks = 0;
 
+        // For sound FX
+        SoundPool soundPool;
+        int beep1ID = -1;
+        int beep2ID = -1;
+        int beep3ID = -1;
+        int loseLifeID = -1;
+        int explodeID = -1;
+
+        // The score
+        int score = 0;
+
+        // Lives
+      //  int lives = 3;
+
 
 
         int gameLevel;
-        int score = 0;
 
 
         int lives = 3;
@@ -108,11 +127,45 @@ public class GameCanvas extends Activity {
 
             firstTime = true;
 
+            // Load the sounds
+
+            // This SoundPool is deprecated but don't worry
+            soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC,0);
+
+            try{
+                // Create objects of the 2 required classes
+                AssetManager assetManager = context.getAssets();
+                AssetFileDescriptor descriptor;
+
+                // Load our fx in memory ready for use
+                descriptor = assetManager.openFd("beep1.ogg");
+                beep1ID = soundPool.load(descriptor, 0);
+
+                descriptor = assetManager.openFd("beep2.ogg");
+                beep2ID = soundPool.load(descriptor, 0);
+
+                descriptor = assetManager.openFd("beep3.ogg");
+                beep3ID = soundPool.load(descriptor, 0);
+
+                descriptor = assetManager.openFd("loseLife.ogg");
+                loseLifeID = soundPool.load(descriptor, 0);
+
+                descriptor = assetManager.openFd("explode.ogg");
+                explodeID = soundPool.load(descriptor, 0);
+
+            }catch(IOException e){
+                // Print an error message to the console
+                Log.e("error", "failed to load sound files");
+            }
+
             makeBrickWall();
 
         }
         public void makeBrickWall(){
 
+
+            score = 0;
+            lives = 3;
 
             int brickWidth = xResulation / 8;
             int brickHeight = yResulation /12;
@@ -229,26 +282,31 @@ public class GameCanvas extends Activity {
                                 bricks[i].setType(0);
                                 bricks[i].setCollisionCounter();
                             }
+                            //make sound when ball collid with the bricks
+                            soundPool.play(explodeID, 1, 1, 0, 0, 1);
 
                             ball.setVerticalSpeed();
 
                         }
                     }
                 }
-
+                // Check for ball colliding with the bar and make sound
                 if(RectF.intersects(bar.getBar(),ball.getBall())) {
                     ball.setRandomXVelocity();
                     ball.setVerticalSpeed();
                     ball.stopVtclOverlape(bar.getBar().top - 2);
+                    soundPool.play(beep1ID, 1, 1, 0, 0, 1);
                 }
 
-
+                // Bounce the ball back when it hits the bottom of screen
+                // And deduct a life
                 if(ball.getBall().bottom > yResulation){
                     ball.setVerticalSpeed();
                     ball.stopVtclOverlape(yResulation - 2);
 
                     // Lose a life
                     lives --;
+                    soundPool.play(loseLifeID, 1, 1, 0, 0, 1);
                     //when total numBricks=0 then game finish
                     if(lives == 0){
                         isRunning = true;
@@ -261,20 +319,22 @@ public class GameCanvas extends Activity {
 
                 if(ball.getBall().top < 0){
                     ball.setVerticalSpeed();
-
                     ball.stopVtclOverlape(100);
+                    soundPool.play(beep2ID, 1, 1, 0, 0, 1);
                 }
 
                 // If the ball hits left wall bounce
                 if(ball.getBall().left < 0){
                     ball.reverseXVelocity();
                     ball.stopHOverlap(20);
+                    soundPool.play(beep3ID, 1, 1, 0, 0, 1);
                 }
 
                 // If the ball hits right wall bounce
                 if(ball.getBall().right > xResulation){
                     ball.reverseXVelocity();
                     ball.stopHOverlap(xResulation - 50);
+                    soundPool.play(beep3ID, 1, 1, 0, 0, 1);
                 }
 
                 //check game score and  go to the next level
