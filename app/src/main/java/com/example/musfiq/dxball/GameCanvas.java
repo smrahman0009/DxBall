@@ -83,7 +83,9 @@ public class GameCanvas extends Activity {
 
         int lives = 3;
 
-        int wallRows;
+        int noOfRows;
+        int noOfColms;
+        float targetScore;
         int levelTracker;
 
 
@@ -91,6 +93,7 @@ public class GameCanvas extends Activity {
         public DxBall(Context context){
             super(context);
             levelTracker=0;
+
 
             //init game level
             GAME_LEVEL_ONE=true;
@@ -123,7 +126,11 @@ public class GameCanvas extends Activity {
             this.ballSpeed=40;
             this.barSpeed=17;
 
-            this.wallRows=2;
+            //init no of rows in wall
+            this.noOfRows =2;
+            this.noOfColms =8;
+            //init target score
+            this.targetScore = this.noOfColms*this.noOfRows*10;
 
          //   firstTime = true;
 
@@ -164,7 +171,7 @@ public class GameCanvas extends Activity {
         public void makeBrickWall(){
 
 
-            score = 0;
+          //  score = 0;
             lives = 3;
 
             int brickWidth = xResulation / 8;
@@ -177,8 +184,8 @@ public class GameCanvas extends Activity {
             int collisionCounter=0;
 
             //set Bricks positions
-            for(int column = 0; column < 8; column ++ ){
-                for(int row = 0; row < this.wallRows; row ++ ){
+            for(int column = 0; column < this.noOfColms; column ++ ){
+                for(int row = 0; row < this.noOfRows; row ++ ){
                     if(column%2==0 && row%2==0){
                         type=0;
                         bricks[numBricks] = new Brick(row, column, brickWidth, brickHeight,type,0);
@@ -252,6 +259,7 @@ public class GameCanvas extends Activity {
                 canvas.drawText("Point: " + score , xResulation-200,50, paint);
                 canvas.drawText( " gameLevel: " + gameLevel, xResulation-600,50, paint);
                 canvas.drawText( " Lives: " + lives, xResulation-1000,50, paint);
+                canvas.drawText( " h speed: " + ball.getHoraizontalSpeed(), xResulation-1000,200, paint);
 
                 gameHolder.unlockCanvasAndPost(canvas);
             }
@@ -338,36 +346,44 @@ public class GameCanvas extends Activity {
                 }
 
                 //check game score and  go to the next level
-                if (score == 160 && GAME_LEVEL_ONE==true){
+                if (score == targetScore && GAME_LEVEL_ONE==true){
                     GAME_LEVEL_ONE=false;
                     GAME_LEVEL_TWO=true;
+                    ballSpeed= ballSpeed-5;
                     gameLevel=2;
-                    this.wallRows=3;
+                    this.noOfRows =3;
+                    targetScore = targetScore+(this.noOfRows*this.noOfColms)*10;
                     ball.reset(xResulation,yResulation);
                     bar.barPositionReset();
                     makeBrickWall();
                     // levelTracker=0;
                 }
-                else if (score == 400 && GAME_LEVEL_TWO==true){
+                else if (score == targetScore && GAME_LEVEL_TWO==true){
                     GAME_LEVEL_TWO=false;
                     GAME_LEVEL_THREE = true;
                     gameLevel=3;
-                    this.wallRows=4;
+                    ballSpeed = ballSpeed-5;
+                    this.noOfRows =4;
+                    targetScore = targetScore+(this.noOfRows*this.noOfColms)*10;
                     ball.reset(xResulation,yResulation);
                     bar.barPositionReset();
                     makeBrickWall();
 
                 }
-                else if (score == 720 && GAME_LEVEL_THREE==true){
+                else if (score == targetScore && GAME_LEVEL_THREE==true){
+                  //  finish();
+                    GAME_LEVEL_ONE = true;
                     GAME_LEVEL_TWO=false;
-                    GAME_LEVEL_THREE = true;
+                    GAME_LEVEL_THREE = false;
                     gameLevel=1;
-                    this.wallRows=2;
+                    score=0;
+                    ballSpeed = ballSpeed+10;
+                    this.noOfRows =2;
+                    targetScore = (this.noOfRows*this.noOfColms)*10;
                     ball.reset(xResulation,yResulation);
                     bar.barPositionReset();
                     makeBrickWall();
 
-                    // finish();
                 }
                 // }
 

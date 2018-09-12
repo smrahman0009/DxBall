@@ -24,6 +24,14 @@ public class Ball {
 
     }
 
+    public void setHoraizontalSpeed(float horaizontalSpeed){
+        this.horaizontalSpeed = horaizontalSpeed;
+    }
+
+    public float getHoraizontalSpeed(){
+        return this.horaizontalSpeed;
+    }
+
     public void setBallWidth(float width){
         this.ballWidth=width;
     }
@@ -73,6 +81,9 @@ public class Ball {
         Random generator = new Random();
         int answer = generator.nextInt(5);
 
+        if (horaizontalSpeed<=280){
+            horaizontalSpeed = 300;
+        }
         if(answer == 0){
             reverseXVelocity();
         }
