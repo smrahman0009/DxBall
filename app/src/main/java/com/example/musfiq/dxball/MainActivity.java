@@ -9,7 +9,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
 
-    private Button button,buttonExit;
+    private Button button,buttonExit,buttonHelp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
         button = findViewById(R.id.buttonStart);
         buttonExit = findViewById(R.id.buttonExit);
+        buttonHelp = findViewById(R.id.buttonHelp);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void exitGame(View view){
         System.exit(1);
+    }
+
+    public void helpUser(View view){
+        Intent intent = new Intent(this,Help.class);
+        startActivity(intent);
     }
 
 }
