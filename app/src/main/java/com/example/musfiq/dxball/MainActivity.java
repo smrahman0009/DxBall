@@ -9,13 +9,14 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity {
 
 
-    private Button button;
+    private Button button,buttonExit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         button = findViewById(R.id.buttonStart);
+        buttonExit = findViewById(R.id.buttonExit);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -28,6 +29,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this,GameCanvas.class);
         startActivity(intent);
 
+    }
+
+    public void exitGame(View view){
+        System.exit(1);
     }
 
 }
