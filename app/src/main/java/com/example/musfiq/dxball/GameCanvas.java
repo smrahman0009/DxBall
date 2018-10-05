@@ -258,9 +258,9 @@ public class GameCanvas extends Activity {
                 // Draw  score
                 paint.setTextSize(40);
                 canvas.drawText("Point: " + score , xResulation-200,50, paint);
-                canvas.drawText( " gameLevel: " + gameLevel, xResulation-600,50, paint);
-                canvas.drawText( " Lives: " + lives, xResulation-1000,50, paint);
-                canvas.drawText( " h speed: " + ball.getHoraizontalSpeed(), xResulation-1000,200, paint);
+                canvas.drawText( " Level: " + gameLevel, xResulation-500,50, paint);
+                canvas.drawText( " Lives: " + lives, xResulation-500,100, paint);
+               // canvas.drawText( " h speed: " + ball.getHoraizontalSpeed(), xResulation-1000,200, paint);
 
                 gameHolder.unlockCanvasAndPost(canvas);
             }
