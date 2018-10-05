@@ -4,6 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#4CAF50"
     tools:context=".Help">
 
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="52dp"
+        android:background="#4CAF50"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="true"
+        android:ems="10"
+        android:filterTouchesWhenObscured="false"
+        android:inputType="none"
+        android:text="To move the bar to the right side you should touch the right side of
+                      the screen . And to move the left touch the left side of the screen.
+                      if the ball collide with the floor of the gameplay you will lose one
+                      life .There are total three levels. To go to the next level you have
+                      to earn some certain points.Now enjoy!!!!!!."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
