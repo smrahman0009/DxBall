@@ -1,4 +1,4 @@
-package com.example.musfiq.dxball;
+package com.mushfiks_app.musfiq.dxball;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
