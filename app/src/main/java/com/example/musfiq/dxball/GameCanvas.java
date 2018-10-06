@@ -253,13 +253,13 @@ public class GameCanvas extends Activity {
                     }
                 }
 
-                paint.setColor(Color.argb(255,  0, 0, 2));
+                paint.setColor(Color.argb(255,  255, 255, 255));
 
                 // Draw  score
                 paint.setTextSize(40);
                 canvas.drawText("Point: " + score , xResulation-200,50, paint);
-                canvas.drawText( " Level: " + gameLevel, xResulation-500,50, paint);
-                canvas.drawText( " Lives: " + lives, xResulation-500,100, paint);
+                canvas.drawText( " Level: " + gameLevel, xResulation-200,100, paint);
+                canvas.drawText( " Lives: " + lives, xResulation-200,150, paint);
                // canvas.drawText( " h speed: " + ball.getHoraizontalSpeed(), xResulation-1000,200, paint);
 
                 gameHolder.unlockCanvasAndPost(canvas);
