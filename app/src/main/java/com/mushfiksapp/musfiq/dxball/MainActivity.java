@@ -1,4 +1,4 @@
-package com.example.musfiq.dxball;
+package com.mushfiksapp.musfiq.dxball;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
