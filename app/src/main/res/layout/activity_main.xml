@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0272A6"
+    android:background="#4CAF50"
     tools:context=".MainActivity">
 
     <Button
@@ -12,7 +12,6 @@
         android:layout_width="142dp"
         android:layout_height="72dp"
         android:layout_marginBottom="208dp"
-        android:background="#FFEB3B"
         android:text="Start Game"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +25,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:background="#FFEB3B"
         android:onClick="exitGame"
         android:text="Exit"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -46,7 +44,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="#FFEB3B"
+        android:background="#FFC107"
         android:onClick="helpUser"
         android:text="Help"
         app:layout_constraintBottom_toTopOf="@+id/buttonStart"

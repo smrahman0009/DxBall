@@ -1,5 +1,5 @@
 
-package com.mushfiks_app.musfiq.dxball;
+package com.example.musfiq.dxball;
 
 import android.app.Activity;
 import android.content.Context;

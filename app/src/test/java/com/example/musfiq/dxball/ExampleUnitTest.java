@@ -1,4 +1,4 @@
-package com.mushfiks_app.musfiq.dxball;
+package com.example.musfiq.dxball;
 
 import org.junit.Test;
 
